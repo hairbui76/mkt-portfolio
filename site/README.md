@@ -70,4 +70,7 @@ GSAP 3.15 with ScrollTrigger and SplitText, all in `vendor/`. Visitors who ask f
 - **Crawlers:** `robots.txt` (keeps `/feedback/` out) and `sitemap.xml` (one page plus its main images; update `lastmod` when the content changes).
 - **404.html:** GitHub Pages serves it for any missing path; it is `noindex`.
 
+- **Keywords:** the name in all its spellings (Vũ Huyền My, Vu Huyen My, Huyền My), the role (creative, brand and product marketing; brand strategy; social media; product development), the place (Hà Nội, Vietnam) and the project names (ĐỒNG, Người Lái Đò, Phỗng Đất, Ninh Bình). Each is said once where it belongs: the title, the description, the cover sentence, About, the chapter titles and the one Vietnamese sentence in the footer. Don't add more by repetition; the outline words behind the chapter openers are drawn from an attribute so they don't count as text.
+- **Search Console:** the property is verified with the `google-site-verification` tag in the `<head>`; keep it there.
+
 After a deploy, add the site to Google Search Console (URL-prefix property `https://vhmy.github.io/`, verify with the HTML-tag method in the `<head>`) and submit `sitemap.xml`.
