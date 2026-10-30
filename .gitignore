@@ -1,0 +1,8 @@
+# OS and editor clutter
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+
+# design-tool working files
+.taste-skill/
