@@ -146,22 +146,19 @@ a { color: inherit; text-decoration: underline; text-decoration-thickness: 0.07e
 .bar__nav a { text-decoration-color: transparent; }
 @media (hover: hover) and (pointer: fine) { .bar__nav a:hover { text-decoration-color: currentColor; } }
 
-/* ---------- 1. hero: red, the sentence at poster size ---------- */
-.hero { --top: calc(var(--bar-h) + 2svh); --aw: calc(var(--step-xl) * 3.45); }
-.hero__stage { position: relative; height: 100svh; min-height: 640px; overflow: clip; }
-.hero__title { position: absolute; z-index: 2; inset: 0; font-size: var(--step-xl); line-height: 0.86; }
-.hero__half { position: absolute; left: var(--margin); white-space: nowrap; }
-.hero__half--a { top: var(--top); }
-.hero__half--b { bottom: 3svh; }
+/* ---------- cover: red, "Hello, I'm My" at poster size, My standing on the right ---------- */
+.hero__stage { position: relative; height: 100svh; min-height: 640px; overflow: clip; padding: calc(var(--bar-h) + 2svh) var(--margin) 0; }
+.hero__title { position: relative; z-index: 2; font-size: var(--step-xl); line-height: 0.86; }
+.hero__line { display: block; white-space: nowrap; }
 .mask { display: block; overflow: clip; padding-bottom: 0.1em; margin-bottom: -0.1em; }
 .ch { display: inline-block; }
-.hero__reel { /* above the title box (z 2), so the products can be pointed at */
-  position: absolute; z-index: 3; right: var(--margin);
-  top: calc(var(--top) + 0.12 * var(--step-xl));
-  width: calc(100% - var(--margin) * 2 - var(--aw) - var(--gutter) * 1.5);
-  height: calc(100svh - var(--top) - 0.12 * var(--step-xl) - 3svh - 1.02 * var(--step-xl) - 24px);
-}
-/* the products fanned out like a hand of cards; nothing crosses the headline */
+.hero__lead { position: relative; z-index: 2; width: min(30rem, 46vw); margin-top: clamp(24px, 4svh, 48px); }
+.hero__lead p { font-size: 18px; margin-bottom: 24px; }
+.hero__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; font-weight: 600; }
+.hero__me { position: absolute; z-index: 1; right: clamp(24px, 9vw, 180px); bottom: 0; height: calc(100% - var(--bar-h) - 3svh); width: auto; max-width: none; }
+
+/* the products fanned out like a hand of cards (chapter 02) */
+.chapter__fan { position: relative; z-index: 2; }
 .fan { position: relative; height: 100%; margin: 0; padding: 0; list-style: none; }
 .fan__item { position: absolute; left: calc(var(--x) * 1%); top: calc(var(--y) * 1%); width: calc(var(--w) * 1%); z-index: var(--z); transform: translate(-50%, -50%); outline: none; }
 /* taste-skill-ignore: a hard, unblurred print shadow lifts each sticker off the red, asked for by the client */
@@ -173,8 +170,35 @@ a { color: inherit; text-decoration: underline; text-decoration-thickness: 0.07e
   .fan__item:hover .fan__card, .fan__item:focus-visible .fan__card { translate: var(--dx, 0) var(--dy, 0); rotate: var(--straight, 0deg); scale: var(--s, 1.2); filter: drop-shadow(clamp(8px, 0.9vw, 16px) clamp(10px, 1.2vw, 22px) 0 rgb(58 14 12 / 0.36)); }
 }
 .fan__item img { width: 100%; height: auto; }
-.hero__lead { position: absolute; z-index: 2; left: var(--margin); top: calc(var(--top) + 0.94 * var(--step-xl) + 28px); width: min(28rem, var(--aw)); }
-.hero__lead p { font-size: 18px; margin-bottom: 24px; }
+
+/* ---------- chapter openers: the deck's divider slides, the number outlined and the words repeating behind ---------- */
+.chapter { position: relative; display: grid; grid-template-columns: repeat(12, 1fr); gap: 0 var(--gutter); align-content: end; min-height: 72svh; padding: var(--section) var(--margin); overflow: clip; }
+.chapter__words { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: space-around; pointer-events: none; overflow: clip;
+  font: 800 clamp(48px, 7vw, 120px)/1 var(--font-display); font-variation-settings: 'SOFT' 100, 'WONK' 1, 'opsz' 144; letter-spacing: -0.02em;
+  color: transparent; -webkit-text-stroke: 1px color-mix(in oklab, var(--fg) 22%, transparent); }
+.chapter__words span { display: block; white-space: nowrap; }
+.chapter__words span:nth-child(even) { translate: -18% 0; }
+.chapter__no { position: relative; grid-column: 7 / 13; grid-row: 1 / 3; align-self: end; justify-self: end; margin-bottom: -0.06em; font: 800 clamp(160px, 30vw, 560px)/0.78 var(--font-display); font-variation-settings: 'SOFT' 100, 'WONK' 1, 'opsz' 144; letter-spacing: -0.04em; color: transparent; -webkit-text-stroke: clamp(2px, 0.25vw, 4px) var(--loud); }
+.chapter__title { position: relative; grid-column: 1 / 9; grid-row: 1; font-family: var(--font-display); font-variation-settings: 'SOFT' 100, 'WONK' 1, 'opsz' 144; font-weight: 800; letter-spacing: -0.03em; font-size: clamp(64px, 11vw, 210px); line-height: 0.9; }
+.chapter__lead { position: relative; grid-column: 1 / 6; grid-row: 2; margin-top: 28px; }
+.chapter--fan .chapter__no, .chapter--fan .chapter__title, .chapter--fan .chapter__lead { grid-column: 1 / 7; }
+.chapter--fan .chapter__no { grid-row: 1; justify-self: start; font-size: clamp(120px, 16vw, 300px); margin: 0 0 -0.1em; }
+.chapter--fan .chapter__title { grid-row: 2; } .chapter--fan .chapter__lead { grid-row: 3; }
+.chapter--fan .chapter__title { font-size: clamp(64px, 8.4vw, 170px); }
+.chapter--fan .chapter__fan { grid-column: 7 / 13; grid-row: 1 / 4; align-self: center; height: min(74svh, 44vw); }
+
+/* ---------- branding: Ninh Bình's identity ---------- */
+.nbid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 56px var(--gutter); align-items: end; padding: var(--section) var(--margin) 0; }
+.nbid__text { grid-column: 1 / 7; display: grid; gap: 20px; }
+.nbid__role { font-size: var(--step-small); color: var(--soft); }
+.nbid__logos { grid-column: 8 / 13; display: grid; grid-template-columns: 1.4fr 1fr; gap: 8px; align-items: end; }
+.nbid__logos img { width: 100%; height: auto; }
+.nbid__logos figcaption { grid-column: 1 / -1; display: flex; align-items: center; gap: 8px; font-size: var(--step-small); font-variant-numeric: tabular-nums; color: var(--soft); }
+.chip { display: inline-block; width: 22px; height: 22px; background: var(--c); outline: 1px solid color-mix(in oklab, var(--green) 25%, transparent); }
+.chip + .chip, figcaption .chip:not(:first-child) { margin-left: 12px; }
+.nbid__posters { grid-column: 1 / -1; margin-inline: calc(var(--margin) * -1); height: 70svh; overflow: clip; }
+.nbid__posters img { width: 100%; height: 100%; object-fit: cover; }
+
 /* ---------- 2. ĐỒNG: green, the cards cross it ---------- */
 .dong { --cw: min(720px, 54vw); --ch: min(560px, 62svh); }
 .dong__stage { padding: var(--section) var(--margin); }
@@ -293,8 +317,8 @@ html.js .scarf.is-live .scarf__stage { display: flex; flex-direction: column; pa
 
 /* ---------- 7. projects: paper ---------- */
 .projects { padding: var(--section) var(--margin); overflow-x: clip; }
+.projects > .block:first-child { margin-top: 0; }
 .block { display: grid; grid-template-columns: repeat(12, 1fr); gap: var(--gutter); align-items: end; margin-top: 120px; }
-.projects > .head + .block { margin-top: 72px; }
 .block__visual { grid-column: 1 / 8; margin-left: calc(var(--margin) * -1); height: 72svh; overflow: clip; background: var(--sand); }
 .block--b .block__visual { height: 56svh; }
 .block--c .block__visual { height: 64svh; }
@@ -349,11 +373,10 @@ details:not([open]) > .index__more { display: none; }
 
 /* ---------- 10. contact: red, the question large ---------- */
 .contact { display: grid; grid-template-columns: repeat(12, 1fr); gap: 56px var(--gutter); align-items: start; padding: var(--section) var(--margin); }
-.contact__q { grid-column: 1 / 8; }
+.contact__q { grid-column: 1 / -1; font-size: var(--step-xl); line-height: 0.86; }
 .contact__line { grid-column: 1 / 6; min-width: 0; }
 .contact { position: relative; }
-.contact__cutout { position: absolute; z-index: 2; right: var(--margin); bottom: 0; height: calc(100% + 96px); width: auto; max-width: 34%; object-fit: contain; object-position: bottom right; pointer-events: none; }
-.contact__links { grid-column: 6 / 9; display: grid; gap: 12px; justify-items: start; min-width: 0; overflow-wrap: anywhere; }
+.contact__links { grid-column: 8 / 13; display: grid; gap: 12px; justify-items: start; min-width: 0; overflow-wrap: anywhere; }
 .contact__links .button { margin-bottom: 8px; }
 .contact__links p a { font-weight: 500; }
 .contact__note { font-size: var(--step-small); margin-top: 4px; }
@@ -378,11 +401,20 @@ details:not([open]) > .index__more { display: none; }
   .bar__nav { display: none; }
   .bar .button { margin-left: auto; }
 
-  .hero__stage { height: auto; min-height: 0; display: flex; flex-direction: column; padding: calc(var(--bar-h) + 28px) var(--margin) 8px; }
-  .hero__title { position: static; font-size: clamp(56px, 16vw, 140px); line-height: 0.9; }
-  .hero__half { position: static; display: block; white-space: normal; }
-  .hero__lead { position: static; order: 2; width: auto; max-width: 34rem; margin-top: 28px; }
-  .hero__reel { position: relative; order: 3; right: auto; top: auto; width: 100%; height: auto; aspect-ratio: 1; margin-top: 32px; }
+  .hero__stage { height: auto; min-height: 0; display: flex; flex-direction: column; padding: calc(var(--bar-h) + 28px) var(--margin) 0; }
+  .hero__title { font-size: clamp(64px, 21vw, 160px); line-height: 0.88; }
+  .hero__lead { width: auto; max-width: 34rem; margin-top: 24px; }
+  .hero__me { position: relative; right: auto; align-self: flex-end; height: min(70svh, 520px); margin-top: 16px; }
+
+  .chapter { grid-template-columns: 1fr; min-height: 0; }
+  .chapter__no, .chapter__title, .chapter__lead, .chapter--fan .chapter__no, .chapter--fan .chapter__title, .chapter--fan .chapter__lead { grid-column: 1; grid-row: auto; justify-self: start; }
+  .chapter__no { font-size: clamp(120px, 36vw, 220px); margin: 0 0 -0.08em; }
+  .chapter__title, .chapter--fan .chapter__title { font-size: clamp(52px, 15vw, 110px); }
+  .chapter--fan .chapter__fan { grid-column: 1; grid-row: auto; height: auto; aspect-ratio: 1; margin-top: 32px; }
+
+  .nbid { grid-template-columns: 1fr; gap: 32px; }
+  .nbid__text, .nbid__logos, .nbid__posters { grid-column: 1; }
+  .nbid__posters { height: auto; aspect-ratio: 4 / 3; }
 
   .dong { --cw: calc(100vw - var(--margin) * 2); --ch: auto; }
   .cards { flex-direction: column; overflow: visible; margin-inline: 0; padding-inline: 0; gap: 24px; }
@@ -438,8 +470,8 @@ details:not([open]) > .index__more { display: none; }
 
   .contact { grid-template-columns: 1fr; row-gap: 32px; }
   .contact__q, .contact__line { grid-column: 1 / -1; }
+  .contact__q { font-size: clamp(64px, 20vw, 150px); }
   .contact__links { grid-column: 1 / -1; }
-  .contact__cutout { position: static; order: 5; grid-column: 1 / -1; justify-self: end; height: 380px; max-width: none; margin: -24px 0 calc(var(--section) * -1); }
 
   .foot { grid-template-columns: 1fr; }
   .foot__pic { grid-column: 1; height: 50svh; }
@@ -453,6 +485,7 @@ details:not([open]) > .index__more { display: none; }
   /* load: the sentence rises letter by letter, the frame opens, the sentence and button arrive (done by 1.2 s) */
   .js .hero .ch { transform: translateY(112%); animation: line-up 760ms var(--ease-expo) forwards; animation-delay: calc(80ms + var(--c) * 16ms); }
   .js .hero [data-load] { opacity: 0; transform: translateY(14px); animation: rise 520ms var(--ease-out) forwards; animation-delay: var(--d); }
+  .js .hero__me { opacity: 0; transform: translateY(8%); animation: rise 1100ms var(--ease-expo) 240ms forwards; }
 
   /* reveals, once, in reading order (wide screens; a phone reads the page as it is) */
   @media (min-width: 900px) {

@@ -16,6 +16,8 @@ A one-page site, plain HTML, CSS and JavaScript. No build step.
 
 The page reads as a run of posters: each chapter is one full field of the deck's colours (red, green, mustard, paper), with the type set at poster size. The bar at the top takes the colour of the chapter under it and steps aside while you scroll down.
 
+The order follows the deck: the cover ("Hello, I'm My" with her portrait), About, then the four chapters, 01 Social media, 02 Product development, 03 Branding and 04 Film and video, and the Thank you. Each chapter opens like the deck's divider slides, the number outlined and the chapter's words repeating behind.
+
 ## Cutouts
 
 `img/cutouts/` holds the products cut out of their backgrounds, as WebP with transparency.
@@ -25,11 +27,11 @@ The page reads as a run of posters: each chapter is one full field of the deck's
 - **Shadows:** the soft drop shadows from the mockups were trimmed off, so each object sits flat on its colour field.
 
 Where they are used:
-- the fan of products in the hero;
+- the fan of products that opens Product development;
 - the zodiac table, where the chosen scarf turns straight and comes forward;
 - the kit standing out of a mustard block with its cards fanned behind;
 - the stamps landing across the Ninh Bình photograph;
-- the portrait rising out of the contact block.
+- My's portrait on the cover.
 
 ## Feedback (Agentation)
 
@@ -47,10 +49,11 @@ Without `?feedback` the 580 KB bundle is never downloaded. To rebuild the bundle
 
 GSAP 3.15 with ScrollTrigger and SplitText, all in `vendor/`. Visitors who ask for reduced motion see the finished layout.
 
-- **Hero:** the headline rises letter by letter on load while five products deal out of one stack into a fan. The hero does not hold the scroll. Pointing at a product (or tabbing to it) lifts it, straightens it and brings it to the middle of the fan at a readable size.
+- **Cover:** "Hello, I'm My" rises letter by letter on load and My rises into the frame.
+- **Product development:** when the chapter arrives, five products deal out of one stack into a fan. Pointing at a product (or tabbing to it) lifts it, straightens it and brings it to the middle of the fan at a readable size.
 - **Marketing ĐỒNG:** the heading leaves, then five cards cross the green.
 - **Headings:**
-  - "Organic reach", "Repositioning ĐỒNG", "The ferryman scarf" and "Nine zodiac scarves" rise letter by letter.
+  - The chapter titles, "Organic reach", "The ferryman scarf", "Nine zodiac scarves", "Ninh Bình" and "Repositioning ĐỒNG" rise letter by letter.
   - The later chapter headings slide in with the scroll.
 - **Organic reach:** the figures roll up to their values.
 - **The ferryman scarf:** the pictures show under the text from the start; the text then makes way and the three pictures rise until the whole scarf fills the screen.

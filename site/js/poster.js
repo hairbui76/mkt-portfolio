@@ -34,7 +34,7 @@
   // 3. The reach figures roll once, when the chapter is a quarter into view.
   if (reach) ScrollTrigger.create({ trigger: reach, start: 'top 75%', once: true, onEnter: () => reach.classList.add('is-in') });
 
-  // 3a. Pointing at a hero product brings it to the middle of the fan. CSS does the move; this measures it.
+  // 3a. Pointing at a product in chapter 02 brings it to the middle of the fan. CSS does the move; this measures it.
   const fanBox = document.querySelector('.fan');
   if (fanBox) {
     const aim = (li) => {
@@ -53,7 +53,7 @@
 
   const mm = gsap.matchMedia();
   mm.add('(prefers-reduced-motion: no-preference)', () => {
-    // 3b. On load the products deal out of one stack into their fan (the pictures, not their slots, move).
+    // 3b. When chapter 02 arrives, the products deal out of one stack into their fan (the pictures, not their slots, move).
     const fan = document.querySelector('.fan');
     if (fan) {
       const imgs = gsap.utils.toArray('.fan__item img');
@@ -67,14 +67,14 @@
         duration: 0.8,
         ease: 'expo.out',
         stagger: 0.06,
-        delay: 0.2,
+        scrollTrigger: { trigger: fan, start: 'top 75%', once: true },
       });
     }
 
     // 4. Chapter headings marked data-split rise letter by letter out of their line, once.
     if (window.SplitText) {
       document.fonts.ready.then(() => {
-        document.querySelectorAll('.head[data-split]').forEach((el) => {
+        document.querySelectorAll('.head[data-split], .chapter__title[data-split]').forEach((el) => {
           SplitText.create(el, {
             type: 'lines, chars',
             linesClass: 'split-line',
@@ -112,10 +112,6 @@
       y: -180, rotation: (i) => [24, -20, 16][i % 3], autoAlpha: 0, duration: 1, ease: 'expo.out', stagger: 0.14,
       scrollTrigger: { trigger: '.block--c', start: 'top 62%', once: true },
     });
-
-    // 9. The portrait rises a little out of the contact block as it comes into view.
-    const me = document.querySelector('.contact__cutout');
-    if (me) gsap.fromTo(me, { yPercent: 14 }, { yPercent: 0, ease: 'none', scrollTrigger: { trigger: '.contact', start: 'top bottom', end: 'top 35%', scrub: true } });
 
   });
 })();
