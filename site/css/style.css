@@ -155,16 +155,24 @@ a { color: inherit; text-decoration: underline; text-decoration-thickness: 0.07e
 .hero__half--b { bottom: 3svh; }
 .mask { display: block; overflow: clip; padding-bottom: 0.1em; margin-bottom: -0.1em; }
 .ch { display: inline-block; }
-.hero__reel {
-  position: absolute; z-index: 1; right: var(--margin);
+.hero__reel { /* above the title box (z 2), so the products can be pointed at */
+  position: absolute; z-index: 3; right: var(--margin);
   top: calc(var(--top) + 0.12 * var(--step-xl));
   width: calc(100% - var(--margin) * 2 - var(--aw) - var(--gutter) * 1.5);
   height: calc(100svh - var(--top) - 0.12 * var(--step-xl) - 3svh - 1.02 * var(--step-xl) - 24px);
 }
 /* the products fanned out like a hand of cards; nothing crosses the headline */
 .fan { position: relative; height: 100%; margin: 0; padding: 0; list-style: none; }
-.fan__item { position: absolute; left: calc(var(--x) * 1%); top: calc(var(--y) * 1%); width: calc(var(--w) * 1%); z-index: var(--z); transform: translate(-50%, -50%) rotate(var(--r)); }
-.fan__item img { width: 100%; height: auto; filter: drop-shadow(clamp(4px, 0.45vw, 9px) clamp(5px, 0.6vw, 12px) 0 rgb(58 14 12 / 0.32)); } /* taste-skill-ignore: a hard, unblurred print shadow lifts each sticker off the red, asked for by the client */
+.fan__item { position: absolute; left: calc(var(--x) * 1%); top: calc(var(--y) * 1%); width: calc(var(--w) * 1%); z-index: var(--z); transform: translate(-50%, -50%); outline: none; }
+/* taste-skill-ignore: a hard, unblurred print shadow lifts each sticker off the red, asked for by the client */
+.fan__card { display: block; rotate: var(--r); filter: drop-shadow(clamp(4px, 0.45vw, 9px) clamp(5px, 0.6vw, 12px) 0 rgb(58 14 12 / 0.32)); transition: translate 520ms var(--ease-expo), rotate 520ms var(--ease-expo), scale 520ms var(--ease-expo), filter 520ms var(--ease-out); }
+/* point at a product (or tab to it): it lifts, straightens and comes to the middle of the fan, over the others */
+@media (hover: hover) and (pointer: fine) {
+  .fan__item { cursor: zoom-in; }
+  .fan__item:hover, .fan__item:focus-visible { z-index: 10; }
+  .fan__item:hover .fan__card, .fan__item:focus-visible .fan__card { translate: var(--dx, 0) var(--dy, 0); rotate: var(--straight, 0deg); scale: var(--s, 1.2); filter: drop-shadow(clamp(8px, 0.9vw, 16px) clamp(10px, 1.2vw, 22px) 0 rgb(58 14 12 / 0.36)); }
+}
+.fan__item img { width: 100%; height: auto; }
 .hero__lead { position: absolute; z-index: 2; left: var(--margin); top: calc(var(--top) + 0.94 * var(--step-xl) + 28px); width: min(28rem, var(--aw)); }
 .hero__lead p { font-size: 18px; margin-bottom: 24px; }
 /* ---------- 2. ĐỒNG: green, the cards cross it ---------- */

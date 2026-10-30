@@ -1,30 +1,7 @@
-// The three held moments of the page, built on the shared stage (stage.js).
+// The two held moments of the page, built on the shared stage (stage.js).
 // Each one's finished composition is plain CSS: reduced motion, no script and the phone see that.
 (() => {
   const S = window.Scenes = window.Scenes || {};
-
-  // Hero: the sentence holds while the fanned products spread a little further and lift, each at its own depth.
-  S.fan = (root, o = {}) => Stage.scene(root, {
-    hold: o.hold ?? 0.7,
-    scrub: true,
-    phone: 'rest',
-    build(tl, { q }) {
-      const box = q('.fan')[0];
-      q('.fan__item').forEach((el, i) => {
-        const x = parseFloat(el.style.getPropertyValue('--x')) / 100 - 0.5;
-        const y = parseFloat(el.style.getPropertyValue('--y')) / 100 - 0.5;
-        const depth = [0.7, 0.9, 0.35, 1, 0.8][i % 5];
-        tl.to(el, {
-          x: () => x * box.offsetWidth * (x < 0 ? 0.12 : 0.02) * depth, // the right-hand pieces already touch the edge
-          y: () => (y * 0.25 - 0.1) * box.offsetHeight * depth,
-          rotation: `+=${(x < 0 ? -7 : 3) * depth}`,
-          scale: 1 + 0.06 * depth,
-          duration: 1,
-          ease: 'none',
-        }, 0);
-      });
-    },
-  });
 
   // ĐỒNG: the heading leaves first, then five cards cross the brand's green from right to left.
   S.cards = (root, o = {}) => Stage.scene(root, {

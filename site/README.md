@@ -47,7 +47,7 @@ Without `?feedback` the 580 KB bundle is never downloaded. To rebuild the bundle
 
 GSAP 3.15 with ScrollTrigger and SplitText, all in `vendor/`. Visitors who ask for reduced motion see the finished layout.
 
-- **Hero:** the headline rises letter by letter on load while five products deal out of one stack into a fan. The two halves then hold while the fan spreads a little and lifts, each piece at its own depth.
+- **Hero:** the headline rises letter by letter on load while five products deal out of one stack into a fan. The hero does not hold the scroll. Pointing at a product (or tabbing to it) lifts it, straightens it and brings it to the middle of the fan at a readable size.
 - **Marketing ĐỒNG:** the heading leaves, then five cards cross the green.
 - **Headings:**
   - "Organic reach", "Repositioning ĐỒNG", "The ferryman scarf" and "Nine zodiac scarves" rise letter by letter.
