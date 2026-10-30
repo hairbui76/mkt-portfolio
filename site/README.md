@@ -53,7 +53,7 @@ GSAP 3.15 with ScrollTrigger and SplitText, all in `vendor/`. Visitors who ask f
   - "Organic reach", "Repositioning ĐỒNG", "The ferryman scarf" and "Nine zodiac scarves" rise letter by letter.
   - The later chapter headings slide in with the scroll.
 - **Organic reach:** the figures roll up to their values.
-- **The ferryman scarf:** three pictures rise from the bottom and the centre one grows.
+- **The ferryman scarf:** the pictures show under the text from the start; the text then makes way and the three pictures rise until the whole scarf fills the screen.
 - **Smaller moves:**
   - the project pictures open like shutters;
   - the "Social content" list shows a preview beside the row you point at;

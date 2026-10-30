@@ -42,17 +42,23 @@
     },
   });
 
-  // The ferryman scarf: three pictures rise from the bottom edge, the centre one growing as it comes.
+  // The ferryman scarf: the pictures already show under the text; as the scroll goes on the text makes way
+  // and the three pictures rise until the whole scarf fills the screen, the centre one growing as it comes.
   S.rise = (root, o = {}) => Stage.scene(root, {
     hold: o.hold ?? 1,
     scrub: true,
     phone: 'rest',
     build(tl, { q }) {
+      const text = q('.scarf__text')[0];
+      const pics = q('.scarf__pics')[0];
       const mid = q('.scarf__mid')[0];
       const sides = q('.scarf__side');
-      tl.fromTo(mid, { yPercent: 48, scale: 0.82, transformOrigin: '50% 0%' }, { yPercent: 0, scale: 1, duration: 0.85, ease: 'none' }, 0)
-        .fromTo(sides[0], { yPercent: 62 }, { yPercent: 0, duration: 0.85, ease: 'none' }, 0)
-        .fromTo(sides[1], { yPercent: 78 }, { yPercent: 0, duration: 0.85, ease: 'none' }, 0);
+      const lift = () => text.offsetHeight + 40;
+      tl.to(text, { y: () => -lift() * 0.5, autoAlpha: 0, duration: 0.55, ease: 'power1.in' }, 0.1)
+        .fromTo(pics, { y: 0 }, { y: () => -lift(), duration: 0.8, ease: 'power1.inOut' }, 0.1)
+        .fromTo(mid, { scale: 0.86, transformOrigin: '50% 0%' }, { scale: 1, duration: 0.8, ease: 'power1.inOut' }, 0.1)
+        .fromTo(sides[0], { yPercent: 14 }, { yPercent: 0, duration: 0.8, ease: 'power1.inOut' }, 0.1)
+        .fromTo(sides[1], { yPercent: 24 }, { yPercent: 0, duration: 0.8, ease: 'power1.inOut' }, 0.1);
     },
   });
 })();

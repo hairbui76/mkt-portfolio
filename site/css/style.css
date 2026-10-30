@@ -229,6 +229,10 @@ html.js .dong.is-live .dong__stage { padding: 0; }
 .scarf__side { width: var(--side); aspect-ratio: 360 / 530; object-fit: cover; margin-top: 55px; }
 html.js .scarf.is-live .scarf__stage { display: flex; flex-direction: column; padding: calc(var(--bar-h) + 4svh) var(--margin) 0; }
 .scarf.is-live .scarf__pics { margin-top: 40px; }
+/* held: the pictures are sized so the whole scarf fits the screen once the text has made way */
+.scarf.is-live { --fit: calc((100svh - var(--bar-h) - 12svh) * 0.8); }
+.scarf.is-live .scarf__mid { width: min(var(--mid), var(--fit)); }
+.scarf.is-live .scarf__side { width: min(var(--side), calc(var(--fit) * 0.48)); }
 
 .origin { display: grid; grid-template-columns: repeat(12, 1fr); gap: var(--gutter); align-items: end; padding: var(--section) var(--margin); }
 .origin__prints { grid-column: 1 / 6; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }

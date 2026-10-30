@@ -34,6 +34,23 @@
   // 3. The reach figures roll once, when the chapter is a quarter into view.
   if (reach) ScrollTrigger.create({ trigger: reach, start: 'top 75%', once: true, onEnter: () => reach.classList.add('is-in') });
 
+  // 3a. Pointing at a hero product brings it to the middle of the fan. CSS does the move; this measures it.
+  const fanBox = document.querySelector('.fan');
+  if (fanBox) {
+    const aim = (li) => {
+      const fx = fanBox.offsetWidth, fy = fanBox.offsetHeight;
+      const x = li.offsetLeft, y = li.offsetTop; // the slot's centre (translate -50% puts it there)
+      const w = li.offsetWidth, h = li.offsetHeight;
+      li.style.setProperty('--dx', `${fx / 2 - x}px`);
+      li.style.setProperty('--dy', `${fy / 2 - y}px`);
+      li.style.setProperty('--s', Math.max(1.15, Math.min((fx * 0.7) / w, (fy * 0.9) / h)).toFixed(3));
+    };
+    fanBox.querySelectorAll('.fan__item').forEach((li) => {
+      li.addEventListener('pointerenter', () => aim(li));
+      li.addEventListener('focus', () => aim(li));
+    });
+  }
+
   const mm = gsap.matchMedia();
   mm.add('(prefers-reduced-motion: no-preference)', () => {
     // 3b. On load the products deal out of one stack into their fan (the pictures, not their slots, move).
@@ -100,21 +117,5 @@
     const me = document.querySelector('.contact__cutout');
     if (me) gsap.fromTo(me, { yPercent: 14 }, { yPercent: 0, ease: 'none', scrollTrigger: { trigger: '.contact', start: 'top bottom', end: 'top 35%', scrub: true } });
 
-    // 10. The hero object leans toward the pointer (fine pointers only).
-    const stage = document.querySelector('.hero__reel');
-    if (stage && matchMedia('(hover: hover) and (pointer: fine) and (min-width: 900px)').matches) {
-      const qx = gsap.quickTo(stage, 'x', { duration: 0.8, ease: 'power3.out' });
-      const qy = gsap.quickTo(stage, 'y', { duration: 0.8, ease: 'power3.out' });
-      document.querySelector('.hero').addEventListener('pointermove', (e) => {
-        qx((e.clientX / innerWidth - 0.5) * 28);
-        qy((e.clientY / innerHeight - 0.5) * 20);
-      });
-    }
-
-    // 6. The hero sentence's second half drifts a little left as the hero is left behind.
-    const b = document.querySelector('.hero__half--b');
-    if (b && matchMedia('(min-width: 900px)').matches) {
-      gsap.to(b, { xPercent: 2, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom bottom', scrub: true } });
-    }
   });
 })();
