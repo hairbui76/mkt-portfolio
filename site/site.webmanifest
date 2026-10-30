@@ -1,0 +1,12 @@
+{
+  "name": "Vũ Huyền My",
+  "short_name": "Huyền My",
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#b4443f",
+  "theme_color": "#b4443f",
+  "icons": [
+    { "src": "/img/share/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/img/share/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

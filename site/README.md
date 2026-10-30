@@ -58,3 +58,13 @@ GSAP 3.15 with ScrollTrigger and SplitText, all in `vendor/`. Visitors who ask f
   - the project pictures open like shutters;
   - the "Social content" list shows a preview beside the row you point at;
   - the zodiac picture changes with the row and with the year you type.
+
+## Search and sharing
+
+- **Head:** title, description, canonical `https://vhmy.github.io/`, Open Graph and Twitter cards, favicon, theme colour.
+- **Structured data:** one JSON-LD graph in `index.html` with `WebSite`, `ProfilePage` and `Person` (job, Hà Nội, ĐỒNG, the two universities, LinkedIn). Update `dateModified` and the Person block when her role changes.
+- **Share card:** `img/share/og.jpg` (1200×630), her name beside the fanned products. Rebuild it if the hero products change.
+- **Crawlers:** `robots.txt` (keeps `/feedback/` out) and `sitemap.xml` (one page plus its main images; update `lastmod` when the content changes).
+- **404.html:** GitHub Pages serves it for any missing path; it is `noindex`.
+
+After a deploy, add the site to Google Search Console (URL-prefix property `https://vhmy.github.io/`, verify with the HTML-tag method in the `<head>`) and submit `sitemap.xml`.

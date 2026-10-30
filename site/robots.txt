@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+# the reviewers' feedback toolbar, only loaded with ?feedback
+Disallow: /feedback/
+
+Sitemap: https://vhmy.github.io/sitemap.xml
