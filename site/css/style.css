@@ -94,6 +94,7 @@ a { color: inherit; text-decoration: underline; text-decoration-thickness: 0.07e
 :focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
 ::selection { background: var(--green); color: var(--paper); }
 @media (hover: hover) and (pointer: fine) { a:hover { text-decoration-color: currentColor; } }
+html.is-scrolling body { pointer-events: none; } /* no hover hit testing mid-scroll */
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
 /* type */
@@ -161,13 +162,13 @@ a { color: inherit; text-decoration: underline; text-decoration-thickness: 0.07e
 .chapter__fan { position: relative; z-index: 2; }
 .fan { position: relative; height: 100%; margin: 0; padding: 0; list-style: none; }
 .fan__item { position: absolute; left: calc(var(--x) * 1%); top: calc(var(--y) * 1%); width: calc(var(--w) * 1%); z-index: var(--z); transform: translate(-50%, -50%); outline: none; }
-/* taste-skill-ignore: a hard, unblurred print shadow lifts each sticker off the red, asked for by the client */
-.fan__card { display: block; rotate: var(--r); filter: drop-shadow(clamp(4px, 0.45vw, 9px) clamp(5px, 0.6vw, 12px) 0 rgb(58 14 12 / 0.32)); transition: translate 520ms var(--ease-expo), rotate 520ms var(--ease-expo), scale 520ms var(--ease-expo), filter 520ms var(--ease-out); }
+/* the hard print shadow is baked into each sticker picture (a filter here repainted the whole card every frame) */
+.fan__card { display: block; rotate: var(--r); transition: translate 520ms var(--ease-expo), rotate 520ms var(--ease-expo), scale 520ms var(--ease-expo); }
 /* point at a product (or tab to it): it lifts, straightens and comes to the middle of the fan, over the others */
 @media (hover: hover) and (pointer: fine) {
   .fan__item { cursor: zoom-in; }
   .fan__item:hover, .fan__item:focus-visible { z-index: 10; }
-  .fan__item:hover .fan__card, .fan__item:focus-visible .fan__card { translate: var(--dx, 0) var(--dy, 0); rotate: var(--straight, 0deg); scale: var(--s, 1.2); filter: drop-shadow(clamp(8px, 0.9vw, 16px) clamp(10px, 1.2vw, 22px) 0 rgb(58 14 12 / 0.36)); }
+  .fan__item:hover .fan__card, .fan__item:focus-visible .fan__card { translate: var(--dx, 0) var(--dy, 0); rotate: var(--straight, 0deg); scale: var(--s, 1.2); }
 }
 .fan__item img { width: 100%; height: auto; }
 
@@ -305,7 +306,7 @@ html.js .scarf.is-live .scarf__stage { display: flex; flex-direction: column; pa
   transition: background-color var(--t-hover) ease;
 }
 .zrow__meta { font-size: var(--step-small); color: var(--soft); }
-.zrow[aria-expanded='true'] { background: var(--paper); }
+.zrow[aria-expanded='true'], .zrow.is-current { background: var(--paper); }
 .zrow__desc { display: grid; grid-template-rows: 1fr; margin: 0 -14px; background: var(--paper); transition: grid-template-rows 320ms var(--ease-out); }
 .zrow__desc > p { overflow: hidden; min-height: 0; padding: 0 14px 14px; font-size: var(--step-small); }
 .js .zrow__desc { grid-template-rows: 0fr; }
@@ -502,9 +503,10 @@ details:not([open]) > .index__more { display: none; }
   .is-split.is-in .line > span { transform: none; transition: transform 900ms var(--ease-expo) calc(var(--i) * var(--stagger-line)); }
 
   /* shutter on the project visuals */
-  .js [data-shutter] { clip-path: inset(0 100% 0 0); transition: clip-path 1200ms var(--ease-in-out); }
+  .js [data-shutter] { position: relative; }
+  .js [data-shutter]::after { content: ''; position: absolute; inset: 0; z-index: 1; background: var(--bg, var(--paper)); transform-origin: 100% 50%; transition: transform 1200ms var(--ease-in-out); }
   .js [data-shutter] img { scale: 1.12; transition: scale 1500ms var(--ease-soft); }
-  .js [data-shutter].is-in { clip-path: inset(0); }
+  .js [data-shutter].is-in::after { transform: scaleX(0); }
   .js [data-shutter].is-in img { scale: 1; }
 
   /* the figures roll when the reach chapter arrives */
@@ -518,9 +520,7 @@ details:not([open]) > .index__more { display: none; }
 /* scroll-linked drift, quiet, only where supported */
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
-    .block__visual img { animation: drift linear both; animation-timeline: view(); animation-range: cover 0% cover 100%; }
     .foot__pic img { animation: drift-slow linear both; animation-timeline: view(); animation-range: entry 0% exit 100%; }
-    @keyframes drift { from { translate: 0 -4%; } to { translate: 0 4%; } }
     @keyframes drift-slow { from { translate: 0 6%; } to { translate: 0 -3%; } }
   }
 }

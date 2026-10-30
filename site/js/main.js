@@ -5,6 +5,17 @@
   // Scenes and weighted wheel scrolling (both off for reduced motion and touch inside stage.js).
   if (window.Stage) { Stage.smooth(); Stage.init(); }
 
+  // While the page scrolls, nothing under the pointer needs hover: skip the hit testing until it stops.
+  let still;
+  addEventListener('scroll', () => {
+    document.documentElement.classList.add('is-scrolling');
+    clearTimeout(still);
+    still = setTimeout(() => document.documentElement.classList.remove('is-scrolling'), 160);
+  }, { passive: true });
+
+  // Pictures decode off the main thread.
+  document.querySelectorAll('img:not([decoding])').forEach((img) => { img.decoding = 'async'; });
+
   // In-page links go through Lenis when it runs, so they land where a held stage really is.
   document.addEventListener('click', (e) => {
     const a = e.target.closest('a[href^="#"]');
@@ -29,16 +40,20 @@
       watched.get(target).push(el);
     });
     const io = new IntersectionObserver((entries) => {
-      for (const e of entries) if (e.isIntersecting) { watched.get(e.target).forEach((el) => el.classList.add('is-in')); io.unobserve(e.target); }
+      for (const e of entries) if (e.isIntersecting && watched.has(e.target)) { watched.get(e.target).forEach((el) => el.classList.add('is-in')); io.unobserve(e.target); watched.delete(e.target); }
     }, { rootMargin: '0px 0px -100px 0px', threshold: 0 });
     watched.forEach((_, target) => io.observe(target));
     // A jump past an element (a link, the End key) never makes it intersect: reveal whatever is already above.
-    let queued = false;
+    // Only a jump needs this, so ordinary scrolling never reads layout here; shown elements leave the list.
+    let queued = false, lastY = scrollY;
     const sweep = () => {
       queued = false;
+      const y = scrollY, jumped = Math.abs(y - lastY) > innerHeight * 0.75;
+      lastY = y;
+      if (!jumped) return;
       for (const [target, els] of watched) {
-        if (els[0].classList.contains('is-in')) continue;
-        if (target.getBoundingClientRect().top < innerHeight) { els.forEach((el) => el.classList.add('is-in')); io.unobserve(target); }
+        if (els[0].classList.contains('is-in')) { watched.delete(target); continue; }
+        if (target.getBoundingClientRect().top < innerHeight) { els.forEach((el) => el.classList.add('is-in')); io.unobserve(target); watched.delete(target); }
       }
     };
     addEventListener('scroll', () => { if (!queued) { queued = true; requestAnimationFrame(sweep); } }, { passive: true });
@@ -187,8 +202,13 @@
       const meta = row.querySelector('.zrow__meta').textContent.split(',')[0];
       return `${name}, the ${meta}`;
     };
-    const activate = (key) => {
-      rows.forEach((r) => r.setAttribute('aria-expanded', String(r.dataset.key === key)));
+    // open: a tap or the finder opens the row's text; the scroll only marks the row and turns the picture,
+    // so passing the rows never animates the layout
+    const activate = (key, open = true) => {
+      rows.forEach((r) => {
+        r.classList.toggle('is-current', r.dataset.key === key);
+        if (open || r.getAttribute('aria-expanded') === 'true') r.setAttribute('aria-expanded', String(open && r.dataset.key === key));
+      });
       pics.forEach((p) => p.classList.toggle('is-on', p.dataset.key === key));
       table.classList.toggle('has-on', pics.some((p) => p.dataset.key === key));
       const row = rows.find((r) => r.dataset.key === key);
@@ -229,15 +249,10 @@
     if (hasIO) {
       let touched = false;
       form.addEventListener('submit', () => { touched = true; });
-      // a scarf on the table opens its row too (the rows stay the keyboard way in)
-    pics.forEach((p) => p.addEventListener('click', () => {
-      const row = rows.find((r) => r.dataset.key === p.dataset.key);
-      if (row) row.click();
-    }));
-    rows.forEach((r) => r.addEventListener('click', () => { touched = true; }));
+      rows.forEach((r) => r.addEventListener('click', () => { touched = true; }));
       const io = new IntersectionObserver((entries) => {
         if (touched || !wide.matches) return;
-        for (const e of entries) if (e.isIntersecting) activate(e.target.dataset.key);
+        for (const e of entries) if (e.isIntersecting) activate(e.target.dataset.key, false);
       }, { rootMargin: '-46% 0px -46% 0px' });
       rows.forEach((r) => io.observe(r));
     }

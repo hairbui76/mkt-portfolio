@@ -79,8 +79,9 @@
             type: 'lines, chars',
             linesClass: 'split-line',
             mask: 'lines',
-            autoSplit: true,
+            // no autoSplit: the fonts are ready already, and a re-split would replay the rise after revert()
             onSplit: (self) => gsap.from(self.chars, {
+              onComplete: () => self.revert(), // hundreds of letter spans and layers go once the heading has landed
               yPercent: 115,
               duration: 0.9,
               ease: 'expo.out',
@@ -104,7 +105,7 @@
 
     // 7. Cutouts. The Phỗng Đất cards deal out of a stack as the kit comes up the screen.
     const kit = document.querySelector('[data-deal]');
-    if (kit) gsap.fromTo(kit, { '--deal': 0 }, { '--deal': 1, ease: 'none', scrollTrigger: { trigger: kit, start: 'top 85%', end: 'center 55%', scrub: true } });
+    if (kit) gsap.fromTo(kit, { '--deal': 0 }, { '--deal': 1, duration: 1.1, ease: 'expo.out', scrollTrigger: { trigger: kit, start: 'top 70%', once: true } });
 
     // 8. The Ninh Bình stamps drop onto the photograph's edge, one after another, once.
     const stamps = gsap.utils.toArray('[data-stamps] .stamp');
