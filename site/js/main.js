@@ -171,7 +171,8 @@
     const root = document.querySelector('.zodiac');
     if (!root) return;
     const rows = [...root.querySelectorAll('.zrow')];
-    const pics = [...root.querySelectorAll('.zodiac__frame img')];
+    const table = root.querySelector('.ztable');
+    const pics = [...root.querySelectorAll('.zt')];
     const cap = root.querySelector('.zodiac__cap');
     const result = root.querySelector('.finder__result');
     const form = root.querySelector('.finder');
@@ -189,9 +190,15 @@
     const activate = (key) => {
       rows.forEach((r) => r.setAttribute('aria-expanded', String(r.dataset.key === key)));
       pics.forEach((p) => p.classList.toggle('is-on', p.dataset.key === key));
+      table.classList.toggle('has-on', pics.some((p) => p.dataset.key === key));
       const row = rows.find((r) => r.dataset.key === key);
-      cap.textContent = row ? capFor(row) : 'The ngoại án screen, Huế';
+      cap.textContent = row ? capFor(row) : 'Nine scarves on one table';
     };
+    // a scarf on the table opens its row too (the rows stay the keyboard way in)
+    pics.forEach((p) => p.addEventListener('click', () => {
+      const row = rows.find((r) => r.dataset.key === p.dataset.key);
+      if (row) row.click();
+    }));
     rows.forEach((r) => r.addEventListener('click', () => {
       const open = r.getAttribute('aria-expanded') === 'true';
       activate(open ? 'screen' : r.dataset.key);
@@ -222,7 +229,12 @@
     if (hasIO) {
       let touched = false;
       form.addEventListener('submit', () => { touched = true; });
-      rows.forEach((r) => r.addEventListener('click', () => { touched = true; }));
+      // a scarf on the table opens its row too (the rows stay the keyboard way in)
+    pics.forEach((p) => p.addEventListener('click', () => {
+      const row = rows.find((r) => r.dataset.key === p.dataset.key);
+      if (row) row.click();
+    }));
+    rows.forEach((r) => r.addEventListener('click', () => { touched = true; }));
       const io = new IntersectionObserver((entries) => {
         if (touched || !wide.matches) return;
         for (const e of entries) if (e.isIntersecting) activate(e.target.dataset.key);

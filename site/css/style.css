@@ -160,14 +160,11 @@ a { color: inherit; text-decoration: underline; text-decoration-thickness: 0.07e
   top: calc(var(--top) + 0.12 * var(--step-xl));
   width: calc(100% - var(--margin) * 2 - var(--aw) - var(--gutter) * 1.5);
   height: calc(100svh - var(--top) - 0.12 * var(--step-xl) - 3svh - 1.02 * var(--step-xl) - 24px);
-  overflow: clip; background: var(--sand);
 }
-.reel { display: flex; flex-direction: column; }
-.reel__item { height: calc(100svh - var(--top) - 0.12 * var(--step-xl) - 3svh - 1.02 * var(--step-xl) - 24px); background: var(--sand); }
-.reel__item img { width: 100%; height: 100%; object-fit: cover; }
-.reel__item--field { background: var(--mustard); }
-.reel__item--field img { object-fit: contain; padding: 5%; }
-.reel__item--paper { background: var(--paper); }
+.reel { position: relative; height: 100%; }
+.reel__item { position: absolute; inset: 0; display: grid; place-items: center; transform: rotate(var(--r, 0deg)); }
+.reel__item img { width: auto; height: auto; max-width: 94%; max-height: 96%; }
+.js .hero .reel__item:not(:first-child) { opacity: 0; }
 .hero__lead { position: absolute; z-index: 2; left: var(--margin); top: calc(var(--top) + 0.94 * var(--step-xl) + 28px); width: min(28rem, var(--aw)); }
 .hero__lead p { font-size: 18px; margin-bottom: 24px; }
 .hero__index { position: relative; height: 24px; margin-top: 28px; font-size: var(--step-small); }
@@ -349,10 +346,11 @@ details:not([open]) > .index__more { display: none; }
 
 /* ---------- 10. contact: red, the question large ---------- */
 .contact { display: grid; grid-template-columns: repeat(12, 1fr); gap: 56px var(--gutter); align-items: start; padding: var(--section) var(--margin); }
-.contact__q { grid-column: 1 / -1; }
+.contact__q { grid-column: 1 / 8; }
 .contact__line { grid-column: 1 / 6; min-width: 0; }
-.contact__portrait { grid-column: 7 / 9; width: 100%; max-width: 200px; aspect-ratio: 1; object-fit: cover; object-position: 50% 22%; }
-.contact__links { grid-column: 9 / 13; display: grid; gap: 12px; justify-items: start; min-width: 0; overflow-wrap: anywhere; }
+.contact { position: relative; }
+.contact__cutout { position: absolute; z-index: 2; right: var(--margin); bottom: 0; height: calc(100% + 96px); width: auto; max-width: 34%; object-fit: contain; object-position: bottom right; pointer-events: none; }
+.contact__links { grid-column: 6 / 9; display: grid; gap: 12px; justify-items: start; min-width: 0; overflow-wrap: anywhere; }
 .contact__links .button { margin-bottom: 8px; }
 .contact__links p a { font-weight: 500; }
 .contact__note { font-size: var(--step-small); margin-top: 4px; }
@@ -383,8 +381,9 @@ details:not([open]) > .index__more { display: none; }
   .hero__lead { position: static; order: 2; width: auto; max-width: 34rem; margin-top: 28px; }
   .hero__index { display: none; }
   .hero__reel { position: relative; order: 3; right: auto; top: auto; width: auto; height: auto; margin: 36px calc(var(--margin) * -1) 0; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--margin); background: none; scrollbar-width: none; }
-  .reel { flex-direction: row; gap: 10px; padding-inline: var(--margin); width: max-content; }
-  .reel__item { flex: 0 0 auto; width: calc(86vw - var(--margin)); height: auto; aspect-ratio: 4 / 3; scroll-snap-align: start; }
+  .reel { display: flex; flex-direction: row; gap: 10px; height: auto; padding-inline: var(--margin); width: max-content; }
+  .reel__item { position: relative; inset: auto; flex: 0 0 auto; width: calc(78vw - var(--margin)); aspect-ratio: 1; scroll-snap-align: start; }
+  .js .hero .reel__item:not(:first-child) { opacity: 1; }
 
   .dong { --cw: calc(100vw - var(--margin) * 2); --ch: auto; }
   .cards { flex-direction: column; overflow: visible; margin-inline: 0; padding-inline: 0; gap: 24px; }
@@ -438,10 +437,10 @@ details:not([open]) > .index__more { display: none; }
   .about__text { order: -1; }
   .facts { grid-template-columns: 1fr 1fr; }
 
-  .contact { grid-template-columns: 96px 1fr; column-gap: 16px; row-gap: 32px; }
+  .contact { grid-template-columns: 1fr; row-gap: 32px; }
   .contact__q, .contact__line { grid-column: 1 / -1; }
-  .contact__portrait { grid-column: 1; width: 96px; }
-  .contact__links { grid-column: 2; }
+  .contact__links { grid-column: 1 / -1; }
+  .contact__cutout { position: static; order: 5; grid-column: 1 / -1; justify-self: end; height: 380px; max-width: none; margin: -24px 0 calc(var(--section) * -1); }
 
   .foot { grid-template-columns: 1fr; }
   .foot__pic { grid-column: 1; height: 50svh; }
@@ -454,7 +453,7 @@ details:not([open]) > .index__more { display: none; }
 @media (prefers-reduced-motion: no-preference) {
   /* load: the sentence rises letter by letter, the frame opens, the sentence and button arrive (done by 1.2 s) */
   .js .hero .ch { transform: translateY(112%); animation: line-up 760ms var(--ease-expo) forwards; animation-delay: calc(80ms + var(--c) * 16ms); }
-  .js .hero [data-open] { clip-path: inset(0 0 100% 0); animation: open-y 1000ms var(--ease-in-out) 200ms forwards; }
+  .js .hero [data-open] { opacity: 0; transform: translateY(48px) scale(0.92); animation: rise 1000ms var(--ease-expo) 180ms forwards; }
   .js .hero [data-load] { opacity: 0; transform: translateY(14px); animation: rise 520ms var(--ease-out) forwards; animation-delay: var(--d); }
 
   /* reveals, once, in reading order (wide screens; a phone reads the page as it is) */
@@ -500,3 +499,51 @@ details:not([open]) > .index__more { display: none; }
 
 /* SplitText line masks keep the descenders (g, y, p) */
 .split-line-mask { padding-bottom: 0.16em; margin-bottom: -0.16em; }
+
+/* ---------- product cutouts: the objects sit on the colour, out of their frames ---------- */
+/* zodiac: nine scarves on one table; the chosen one turns straight and comes forward */
+.ztable { position: relative; aspect-ratio: 1; }
+.zt {
+  position: absolute; left: calc(var(--x) * 1%); top: calc(var(--y) * 1%); width: 34%; height: auto;
+  transform: translate(-50%, -50%) rotate(var(--r));
+  transition: transform 800ms var(--ease-expo), opacity 300ms ease;
+  cursor: pointer;
+}
+.zt.is-on {
+  z-index: 5;
+  transform: translate(calc(-50% + (50 - var(--x)) * 100% / 34), calc(-50% + (50 - var(--y)) * 100% / 33.3)) rotate(var(--straight, 27deg)) scale(1.62);
+}
+.ztable.has-on .zt:not(.is-on) { opacity: 0.38; }
+@media (hover: hover) and (pointer: fine) { .ztable:not(.has-on) .zt:hover { transform: translate(-50%, -54%) rotate(var(--r)) scale(1.06); } }
+.zodiac__hue img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
+.zodiac__hue figcaption { margin-top: 8px; font-size: var(--step-small); color: var(--soft); }
+
+/* Phỗng Đất: the kit stands out of a mustard block, the cards fan out behind it */
+.block__visual--kit { position: relative; overflow: visible; background: none; --deal: 1; }
+.block__visual--kit::before { content: ''; position: absolute; inset: 30% 0 0 0; background: var(--mustard); }
+.block__visual--kit .deal__kit { width: 64%; height: auto; }
+.block__visual--kit .deal__card { width: 19%; height: auto; }
+.deal__kit { position: absolute; z-index: 2; left: 50%; bottom: 4%; transform: translateX(-50%); }
+.deal__card {
+  position: absolute; z-index: 1; left: 50%; bottom: 40%;
+  transform-origin: 50% 190%;
+  transform: translateX(-50%) rotate(calc((var(--k) - 2) * 15deg * var(--deal))) translateY(calc(-26% * var(--deal)));
+}
+
+/* Ninh Bình: the stamps land across the photograph's edge */
+.block--c { position: relative; }
+.stamps { position: absolute; z-index: 3; left: calc(var(--margin) * -1 + (100% + var(--margin)) * 7 / 12 - 120px); bottom: 6%; width: 230px; height: 330px; pointer-events: none; }
+.stamp { position: absolute; transform: rotate(var(--r)); }
+.stamp:nth-child(1) { width: 150px; left: 0; top: 0; }
+.stamp:nth-child(2) { width: 118px; left: 112px; top: 96px; }
+.stamp:nth-child(3) { width: 92px; left: 40px; top: 212px; }
+
+@media (max-width: 899px) {
+  .ztable { max-width: 420px; }
+  .stamps { position: relative; left: 0; bottom: auto; width: 100%; height: 190px; margin-top: -120px; }
+  .block--c .block__visual { order: 1; } .block--c .stamps { order: 2; } .block--c .block__cluster { order: 3; }
+  .stamp:nth-child(1) { width: 96px; left: auto; right: 150px; }
+  .stamp:nth-child(2) { width: 80px; left: auto; right: 70px; top: 40px; }
+  .stamp:nth-child(3) { width: 64px; left: auto; right: 10px; top: 100px; }
+  .block__visual--kit { aspect-ratio: 1; }
+}

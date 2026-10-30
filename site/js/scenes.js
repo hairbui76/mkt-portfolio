@@ -10,10 +10,14 @@
     phone: 'rest',
     beats: 4,
     build(tl, { q }) {
-      const track = q('.reel')[0];
+      // each object leaves upward with a turn, the next rises in and settles at its own angle
       const items = q('.reel__item');
+      const turn = items.map((el) => parseFloat(el.style.getPropertyValue('--r')) || 0);
       for (let i = 1; i < items.length; i++) {
-        tl.to(track, { y: () => -items[0].offsetHeight * i, duration: 0.18, ease: 'power2.inOut' }, 0.25 * i - 0.09);
+        const at = 0.25 * i - 0.1;
+        tl.to(items[i - 1], { yPercent: -28, rotation: turn[i - 1] - 14, scale: 0.78, autoAlpha: 0, duration: 0.13, ease: 'power2.in' }, at)
+          .fromTo(items[i], { yPercent: 34, rotation: turn[i] + 16, scale: 0.72, autoAlpha: 0 },
+            { yPercent: 0, rotation: turn[i], scale: 1, autoAlpha: 1, duration: 0.16, ease: 'power3.out' }, at + 0.05);
       }
     },
   });

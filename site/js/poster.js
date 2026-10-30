@@ -67,6 +67,32 @@
       });
     });
 
+    // 7. Cutouts. The Phỗng Đất cards deal out of a stack as the kit comes up the screen.
+    const kit = document.querySelector('[data-deal]');
+    if (kit) gsap.fromTo(kit, { '--deal': 0 }, { '--deal': 1, ease: 'none', scrollTrigger: { trigger: kit, start: 'top 85%', end: 'center 55%', scrub: true } });
+
+    // 8. The Ninh Bình stamps drop onto the photograph's edge, one after another, once.
+    const stamps = gsap.utils.toArray('[data-stamps] .stamp');
+    if (stamps.length) gsap.from(stamps, {
+      y: -180, rotation: (i) => [24, -20, 16][i % 3], autoAlpha: 0, duration: 1, ease: 'expo.out', stagger: 0.14,
+      scrollTrigger: { trigger: '.block--c', start: 'top 62%', once: true },
+    });
+
+    // 9. The portrait rises a little out of the contact block as it comes into view.
+    const me = document.querySelector('.contact__cutout');
+    if (me) gsap.fromTo(me, { yPercent: 14 }, { yPercent: 0, ease: 'none', scrollTrigger: { trigger: '.contact', start: 'top bottom', end: 'top 35%', scrub: true } });
+
+    // 10. The hero object leans toward the pointer (fine pointers only).
+    const stage = document.querySelector('.hero__reel');
+    if (stage && matchMedia('(hover: hover) and (pointer: fine) and (min-width: 900px)').matches) {
+      const qx = gsap.quickTo(stage, 'x', { duration: 0.8, ease: 'power3.out' });
+      const qy = gsap.quickTo(stage, 'y', { duration: 0.8, ease: 'power3.out' });
+      document.querySelector('.hero').addEventListener('pointermove', (e) => {
+        qx((e.clientX / innerWidth - 0.5) * 28);
+        qy((e.clientY / innerHeight - 0.5) * 20);
+      });
+    }
+
     // 6. The hero sentence's second half drifts a little left as the hero is left behind.
     const b = document.querySelector('.hero__half--b');
     if (b && matchMedia('(min-width: 900px)').matches) {
