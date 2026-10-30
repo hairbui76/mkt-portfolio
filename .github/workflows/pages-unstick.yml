@@ -1,12 +1,12 @@
 # Run by hand when a deploy fails with "due to in progress deployment. Please cancel <sha> first".
-# Paste that <sha>; this cancels the stuck Pages deployment so the next deploy can go through.
+# Paste that <sha> (or a Pages deployment id); this shows its state and cancels it so the next deploy can go through.
 name: Cancel a stuck Pages deployment
 
 on:
   workflow_dispatch:
     inputs:
       sha:
-        description: Commit SHA named in the failed deploy's error
+        description: Commit SHA (or Pages deployment id) named in the failed deploy's error
         required: true
 
 permissions:
@@ -16,8 +16,10 @@ jobs:
   cancel:
     runs-on: ubuntu-latest
     steps:
-      - name: Cancel the deployment
+      - name: Show its state, then cancel it
         env:
           GH_TOKEN: ${{ github.token }}
           SHA: ${{ inputs.sha }}
-        run: gh api -X POST "repos/${{ github.repository }}/pages/deployments/$SHA/cancel" && echo "cancelled $SHA"
+        run: |
+          gh api "repos/${{ github.repository }}/pages/deployments/$SHA" || true
+          gh api -X POST "repos/${{ github.repository }}/pages/deployments/$SHA/cancel" && echo "cancelled $SHA" || echo "could not cancel $SHA"
