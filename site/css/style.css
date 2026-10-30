@@ -235,8 +235,7 @@ html.js .dong.is-live .dong__stage { padding: 0; }
 .scarf__pics { display: flex; justify-content: center; align-items: flex-start; gap: 10px; margin-top: 56px; }
 .scarf__mid { width: var(--mid); aspect-ratio: 4 / 5; object-fit: cover; }
 .scarf__side { width: var(--side); aspect-ratio: 360 / 530; object-fit: cover; margin-top: 55px; }
-html.js .scarf.is-live .scarf__stage { padding: 0; }
-.scarf.is-live .scarf__stage { display: flex; flex-direction: column; padding-top: calc(var(--bar-h) + 3svh); }
+html.js .scarf.is-live .scarf__stage { display: flex; flex-direction: column; padding: calc(var(--bar-h) + 4svh) var(--margin) 0; }
 .scarf.is-live .scarf__pics { margin-top: 40px; }
 
 .origin { display: grid; grid-template-columns: repeat(12, 1fr); gap: var(--gutter); align-items: end; padding: var(--section) var(--margin); }
