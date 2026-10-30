@@ -36,6 +36,24 @@
 
   const mm = gsap.matchMedia();
   mm.add('(prefers-reduced-motion: no-preference)', () => {
+    // 3b. On load the products deal out of one stack into their fan (the pictures, not their slots, move).
+    const fan = document.querySelector('.fan');
+    if (fan) {
+      const imgs = gsap.utils.toArray('.fan__item img');
+      const box = fan.getBoundingClientRect();
+      gsap.from(imgs, {
+        x: (i, el) => { const r = el.getBoundingClientRect(); return box.left + box.width / 2 - (r.left + r.width / 2); },
+        y: (i, el) => { const r = el.getBoundingClientRect(); return box.top + box.height / 2 - (r.top + r.height / 2); },
+        rotation: (i) => [-24, 20, 0, -30, 12][i % 5],
+        scale: 0.55,
+        autoAlpha: 0,
+        duration: 0.8,
+        ease: 'expo.out',
+        stagger: 0.06,
+        delay: 0.2,
+      });
+    }
+
     // 4. Chapter headings marked data-split rise letter by letter out of their line, once.
     if (window.SplitText) {
       document.fonts.ready.then(() => {

@@ -89,7 +89,7 @@ img { display: block; max-width: 100%; height: auto; }
 p { margin: 0; text-wrap: pretty; }
 h1, h2, h3 { margin: 0; }
 figure { margin: 0; }
-ul.plain, .zlist, .reel, .cards, .record, .index__list, .hero__index { list-style: none; margin: 0; padding: 0; }
+ul.plain, .zlist, .cards, .record, .index__list { list-style: none; margin: 0; padding: 0; }
 a { color: inherit; text-decoration: underline; text-decoration-thickness: 0.07em; text-underline-offset: 0.2em; text-decoration-color: color-mix(in oklab, currentColor 45%, transparent); transition: text-decoration-color var(--t-hover) ease; }
 :focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
 ::selection { background: var(--green); color: var(--paper); }
@@ -161,20 +161,12 @@ a { color: inherit; text-decoration: underline; text-decoration-thickness: 0.07e
   width: calc(100% - var(--margin) * 2 - var(--aw) - var(--gutter) * 1.5);
   height: calc(100svh - var(--top) - 0.12 * var(--step-xl) - 3svh - 1.02 * var(--step-xl) - 24px);
 }
-.reel { position: relative; height: 100%; }
-.reel__item { position: absolute; inset: 0; display: grid; place-items: center; transform: rotate(var(--r, 0deg)); }
-.reel__item img { width: auto; height: auto; max-width: 94%; max-height: 96%; }
-.js .hero .reel__item:not(:first-child) { opacity: 0; }
+/* the products fanned out like a hand of cards; nothing crosses the headline */
+.fan { position: relative; height: 100%; margin: 0; padding: 0; list-style: none; }
+.fan__item { position: absolute; left: calc(var(--x) * 1%); top: calc(var(--y) * 1%); width: calc(var(--w) * 1%); z-index: var(--z); transform: translate(-50%, -50%) rotate(var(--r)); }
+.fan__item img { width: 100%; height: auto; filter: drop-shadow(clamp(4px, 0.45vw, 9px) clamp(5px, 0.6vw, 12px) 0 rgb(58 14 12 / 0.32)); } /* taste-skill-ignore: a hard, unblurred print shadow lifts each sticker off the red, asked for by the client */
 .hero__lead { position: absolute; z-index: 2; left: var(--margin); top: calc(var(--top) + 0.94 * var(--step-xl) + 28px); width: min(28rem, var(--aw)); }
 .hero__lead p { font-size: 18px; margin-bottom: 24px; }
-.hero__index { position: relative; height: 24px; margin-top: 28px; font-size: var(--step-small); }
-.hero__index li { position: absolute; inset: 0; opacity: 0; translate: 0 8px; transition: opacity var(--t-ui) ease, translate var(--t-ui) var(--ease-out); }
-.hero:not([data-beat]) .hero__index li:first-child,
-.hero[data-beat='0'] .hero__index li:nth-child(1),
-.hero[data-beat='1'] .hero__index li:nth-child(2),
-.hero[data-beat='2'] .hero__index li:nth-child(3),
-.hero[data-beat='3'] .hero__index li:nth-child(4) { opacity: 1; translate: 0 0; }
-
 /* ---------- 2. ĐỒNG: green, the cards cross it ---------- */
 .dong { --cw: min(720px, 54vw); --ch: min(560px, 62svh); }
 .dong__stage { padding: var(--section) var(--margin); }
@@ -378,11 +370,7 @@ details:not([open]) > .index__more { display: none; }
   .hero__title { position: static; font-size: clamp(56px, 16vw, 140px); line-height: 0.9; }
   .hero__half { position: static; display: block; white-space: normal; }
   .hero__lead { position: static; order: 2; width: auto; max-width: 34rem; margin-top: 28px; }
-  .hero__index { display: none; }
-  .hero__reel { position: relative; order: 3; right: auto; top: auto; width: auto; height: auto; margin: 36px calc(var(--margin) * -1) 0; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--margin); background: none; scrollbar-width: none; }
-  .reel { display: flex; flex-direction: row; gap: 10px; height: auto; padding-inline: var(--margin); width: max-content; }
-  .reel__item { position: relative; inset: auto; flex: 0 0 auto; width: calc(78vw - var(--margin)); aspect-ratio: 1; scroll-snap-align: start; }
-  .js .hero .reel__item:not(:first-child) { opacity: 1; }
+  .hero__reel { position: relative; order: 3; right: auto; top: auto; width: 100%; height: auto; aspect-ratio: 1; margin-top: 32px; }
 
   .dong { --cw: calc(100vw - var(--margin) * 2); --ch: auto; }
   .cards { flex-direction: column; overflow: visible; margin-inline: 0; padding-inline: 0; gap: 24px; }
@@ -452,7 +440,6 @@ details:not([open]) > .index__more { display: none; }
 @media (prefers-reduced-motion: no-preference) {
   /* load: the sentence rises letter by letter, the frame opens, the sentence and button arrive (done by 1.2 s) */
   .js .hero .ch { transform: translateY(112%); animation: line-up 760ms var(--ease-expo) forwards; animation-delay: calc(80ms + var(--c) * 16ms); }
-  .js .hero [data-open] { opacity: 0; transform: translateY(48px) scale(0.92); animation: rise 1000ms var(--ease-expo) 180ms forwards; }
   .js .hero [data-load] { opacity: 0; transform: translateY(14px); animation: rise 520ms var(--ease-out) forwards; animation-delay: var(--d); }
 
   /* reveals, once, in reading order (wide screens; a phone reads the page as it is) */
@@ -492,7 +479,6 @@ details:not([open]) > .index__more { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero__index li:not(:first-child) { display: none; }
   *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
 }
 

@@ -25,7 +25,7 @@ The page reads as a run of posters: each chapter is one full field of the deck's
 - **Shadows:** the soft drop shadows from the mockups were trimmed off, so each object sits flat on its colour field.
 
 Where they are used:
-- the hero objects;
+- the fan of products in the hero;
 - the zodiac table, where the chosen scarf turns straight and comes forward;
 - the kit standing out of a mustard block with its cards fanned behind;
 - the stamps landing across the Ninh Bình photograph;
@@ -47,7 +47,7 @@ Without `?feedback` the 580 KB bundle is never downloaded. To rebuild the bundle
 
 GSAP 3.15 with ScrollTrigger and SplitText, all in `vendor/`. Visitors who ask for reduced motion see the finished layout.
 
-- **Hero:** the headline rises letter by letter on load. The two halves then hold while four pieces of work advance through the frame.
+- **Hero:** the headline rises letter by letter on load while five products deal out of one stack into a fan. The two halves then hold while the fan spreads a little and lifts, each piece at its own depth.
 - **Marketing ĐỒNG:** the heading leaves, then five cards cross the green.
 - **Headings:**
   - "Organic reach", "Repositioning ĐỒNG", "The ferryman scarf" and "Nine zodiac scarves" rise letter by letter.
