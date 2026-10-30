@@ -1,0 +1,14 @@
+{
+  "name": "agentation-bundle",
+  "private": true,
+  "description": "Builds site/feedback/agentation.js: React + Agentation in one file, loaded only with ?feedback.",
+  "scripts": {
+    "build": "esbuild entry.jsx --bundle --minify --format=iife --target=es2019 --define:process.env.NODE_ENV='\"production\"' --legal-comments=eof --outfile=../../site/feedback/agentation.js"
+  },
+  "devDependencies": {
+    "agentation": "3.1.2",
+    "esbuild": "0.24.2",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  }
+}

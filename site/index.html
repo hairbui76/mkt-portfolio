@@ -510,5 +510,13 @@
 <script src="js/scenes.js"></script>
 <script src="js/main.js"></script>
 <script src="js/poster.js"></script>
+<script>
+  // Reviewers open the page with ?feedback to get the Agentation toolbar. Nobody else downloads it.
+  if (new URLSearchParams(location.search).has('feedback')) {
+    const s = document.createElement('script');
+    s.src = 'feedback/agentation.js';
+    document.body.append(s);
+  }
+</script>
 </body>
 </html>
