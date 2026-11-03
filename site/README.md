@@ -65,7 +65,7 @@ GSAP 3.15 with ScrollTrigger and SplitText, all in `vendor/`. Visitors who ask f
 ## Search and sharing
 
 - **Head:** title, description, canonical `https://vhmy.github.io/`, Open Graph and Twitter cards, favicon, theme colour.
-- **Structured data:** one JSON-LD graph in `index.html` with `WebSite`, `ProfilePage` and `Person` (job, Hà Nội, ĐỒNG, the two universities, LinkedIn). Update `dateModified` and the Person block when her role changes.
+- **Structured data:** one JSON-LD graph in `index.html` with `WebSite`, `ProfilePage` and `Person` (job, Hà Nội, ĐỒNG, the two universities, LinkedIn). Update `dateModified` (a full date and time with its zone, like `2026-11-03T22:50:00+07:00`; a bare date is rejected by Google) and the Person block when her role changes.
 - **Share card:** `img/share/og.jpg` (1200×630), her name beside the fanned products. Rebuild it if the hero products change.
 - **Crawlers:** `robots.txt` (keeps `/feedback/` out) and `sitemap.xml` (one page plus its main images; update `lastmod` when the content changes).
 - **404.html:** GitHub Pages serves it for any missing path; it is `noindex`.
