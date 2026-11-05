@@ -1,7 +1,5 @@
+# The site is kept out of search: every page carries a noindex tag.
+# Crawlers stay allowed so they can read that tag and drop the pages; blocking them here would leave old entries in place.
 User-agent: *
 Allow: /
-# the reviewers' feedback toolbar, only loaded with ?feedback
 Disallow: /feedback/
-
-Sitemap: https://vhmy.github.io/sitemap.xml
-Sitemap: https://vhmy.github.io/sitemap.txt

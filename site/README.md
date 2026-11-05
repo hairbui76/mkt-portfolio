@@ -64,13 +64,11 @@ GSAP 3.15 with ScrollTrigger and SplitText, all in `vendor/`. Visitors who ask f
 
 ## Search and sharing
 
-- **Head:** title, description, canonical `https://vhmy.github.io/`, Open Graph and Twitter cards, favicon, theme colour.
-- **Structured data:** one JSON-LD graph in `index.html` with `WebSite`, `ProfilePage` and `Person` (job, Hà Nội, ĐỒNG, the two universities, LinkedIn). Update `dateModified` (a full date and time with its zone, like `2026-11-03T22:50:00+07:00`; a bare date is rejected by Google) and the Person block when her role changes.
-- **Share card:** `img/share/og.jpg` (1200×630), her name beside the fanned products. Rebuild it if the hero products change.
-- **Crawlers:** `robots.txt` (keeps `/feedback/` out), `sitemap.xml` (one page plus its main images; update `lastmod` when the content changes) and `sitemap.txt`, the same page as plain text, a second address to submit if Search Console sticks on "Couldn't fetch".
-- **404.html:** GitHub Pages serves it for any missing path; it is `noindex`.
+The site is kept out of search engines on purpose.
 
-- **Keywords:** the name in all its spellings (Vũ Huyền My, Vu Huyen My, Huyền My), the role (creative, brand and product marketing; brand strategy; social media; product development), the place (Hà Nội, Vietnam) and the project names (ĐỒNG, Người Lái Đò, Phỗng Đất, Ninh Bình). Each is said once where it belongs: the title, the description, the cover sentence, About, the chapter titles and the one Vietnamese sentence in the footer. Don't add more by repetition; the outline words behind the chapter openers are drawn from an attribute so they don't count as text.
-- **Search Console:** the property is verified with the `google-site-verification` tag in the `<head>`; keep it there.
-
-After a deploy, add the site to Google Search Console (URL-prefix property `https://vhmy.github.io/`, verify with the HTML-tag method in the `<head>`) and submit `sitemap.xml`.
+- **noindex:** `index.html` carries `<meta name="robots" content="noindex, nofollow, noimageindex">` (and the same for Googlebot); `404.html` is noindex too.
+- **robots.txt stays open:** crawlers must be able to fetch the page to read that tag. Blocking them in `robots.txt` would leave any old entry in Google.
+- **No sitemap:** `sitemap.xml` and `sitemap.txt` are gone.
+- **Search Console:** the `google-site-verification` tag stays in the `<head>`, so the Removals tool keeps working.
+- **Link previews still work:** the Open Graph and Twitter tags and `img/share/og.jpg` give a card when the link is pasted into Facebook, LinkedIn or Zalo; noindex does not affect them.
+- To open the site to search again: set the robots tags back to `index, follow`, restore a sitemap and submit it in Search Console.
